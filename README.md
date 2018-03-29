@@ -2,3 +2,10 @@
 
 This project was completed by following "Constructing a Fractal" tutorial on 
 http://catlikecoding.com/unity/tutorials/constructing-a-fractal/.
+
+# Lessons Learned
+- How to use recursion to generate game objects while attaching components to them.
+- How to use a custom initializer to create a component.
+- Relation between parent's transform and child's transform component.
+- How to create a parent-child relationship (Using SetParent method and parent property).
+- How to use coroutines.
