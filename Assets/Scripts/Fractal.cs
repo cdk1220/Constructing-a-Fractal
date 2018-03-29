@@ -17,14 +17,15 @@ public class Fractal : MonoBehaviour {
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
         gameObject.AddComponent<MeshRenderer>().material = material;
 
-        // If less than maximum  depth, create more children
+        // If less than maximum  depth, create more children growing up and to the right
         if (currentDepth < maxDepth) {
-            new GameObject("Fractal Child").AddComponent<Fractal>().Initialize(this);
+            new GameObject("Fractal Child").AddComponent<Fractal>().Initialize(this, Vector3.up);
+            new GameObject("Fractal Child").AddComponent<Fractal>().Initialize(this, Vector3.right);
         }
 	}
 
     // Used to create child objects that inherit parent properties
-    private void Initialize(Fractal parent) {
+    private void Initialize(Fractal parent, Vector3 direction) {
         mesh = parent.mesh;
         material = parent.material;
         maxDepth = parent.maxDepth;
@@ -32,13 +33,13 @@ public class Fractal : MonoBehaviour {
         childScale = parent.childScale;
 
         // To make Fractal parent the parent of what is to be created
-        gameObject.transform.SetParent(parent.transform, false);
+        transform.parent = parent.transform;
 
         // Scale the child 
         transform.localScale = Vector3.one * childScale;
 
         // Move the child so that once moved that are in contact
-        transform.localPosition = Vector3.up * (0.5f + 0.5f * childScale);
+        transform.localPosition = direction * (0.5f + 0.5f * childScale);
     }
 	
 	// Update is called once per frame
