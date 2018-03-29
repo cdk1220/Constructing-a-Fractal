@@ -17,7 +17,7 @@ public class Fractal : MonoBehaviour {
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
         gameObject.AddComponent<MeshRenderer>().material = material;
 
-        // If less than maximum  depth, create more children growing up and to the right
+        // If less than maximum  depth, create more children growing up, to the right, and left
         if (currentDepth < maxDepth) {
             StartCoroutine(CreateChildren());
         }
@@ -48,6 +48,9 @@ public class Fractal : MonoBehaviour {
 
         yield return new WaitForSeconds(0.5f);
         new GameObject("Fractal Child").AddComponent<Fractal>().Initialize(this, Vector3.right);
+
+        yield return new WaitForSeconds(0.5f);
+        new GameObject("Fractal Child").AddComponent<Fractal>().Initialize(this, Vector3.left);
     }
 
 	// Update is called once per frame
