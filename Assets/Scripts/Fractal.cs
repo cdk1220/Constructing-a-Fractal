@@ -14,6 +14,9 @@ public class Fractal : MonoBehaviour {
 
     public float spawnProbabaility;     // Make the fractal look more organic
 
+    public float maxRotationSpeed;      
+    private float rotationSpeed;
+
     public Mesh[] meshes;               // Help randomize meshes
 
     // Directions the children would grow in
@@ -40,6 +43,9 @@ public class Fractal : MonoBehaviour {
 	// Use this for initialization
 	private void Start () {
 
+        // Rotation speed for the this game object
+        rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
+
         // Create materials array if not created already
         if (materials == null) {
             InitializeMaterials();
@@ -64,6 +70,8 @@ public class Fractal : MonoBehaviour {
         childScale = parent.childScale;
 
         spawnProbabaility = parent.spawnProbabaility;
+
+        maxRotationSpeed = parent.maxRotationSpeed;
 
         // To make Fractal parent the parent of what is to be created
         transform.parent = parent.transform;
@@ -114,4 +122,7 @@ public class Fractal : MonoBehaviour {
         materials[maxDepth, 1].color = Color.red;
     }
 
+    private void Update() {
+        transform.Rotate(0f, rotationSpeed * 30f * Time.deltaTime, 0f);
+    }
 }
