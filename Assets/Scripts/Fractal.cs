@@ -12,6 +12,8 @@ public class Fractal : MonoBehaviour {
 
     public float childScale;            // How much to scale the child by
 
+    public float spawnProbabaility;     // Make the fractal look more organic
+
     public Mesh[] meshes;               // Help randomize meshes
 
     // Directions the children would grow in
@@ -55,9 +57,13 @@ public class Fractal : MonoBehaviour {
     private void Initialize(Fractal parent, int childIndex) {
         meshes = parent.meshes;
         materials = parent.materials;
+
         maxDepth = parent.maxDepth;
         currentDepth = parent.currentDepth + 1;
+
         childScale = parent.childScale;
+
+        spawnProbabaility = parent.spawnProbabaility;
 
         // To make Fractal parent the parent of what is to be created
         transform.parent = parent.transform;
@@ -75,8 +81,12 @@ public class Fractal : MonoBehaviour {
     // Method to pass to StartCoroutine to watch the child objects get created recursively
     private IEnumerator CreateChildren() {
         for (int i = 0; i < childDirections.Length; i++) {
-            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
-            new GameObject("Fractal Child").AddComponent<Fractal>().Initialize(this, i);
+
+            // Cutoff branches in a random fashion
+            if (Random.value < spawnProbabaility) {
+                yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+                new GameObject("Fractal Child").AddComponent<Fractal>().Initialize(this, i);
+            }
         }
     }
 
