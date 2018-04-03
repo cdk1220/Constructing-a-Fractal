@@ -17,6 +17,8 @@ public class Fractal : MonoBehaviour {
     public float maxRotationSpeed;      
     private float rotationSpeed;
 
+    public float maxTwist;
+
     public Mesh[] meshes;               // Help randomize meshes
 
     // Directions the children would grow in
@@ -46,6 +48,8 @@ public class Fractal : MonoBehaviour {
         // Rotation speed for the this game object
         rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
 
+        transform.Rotate(Random.Range(-maxTwist, maxTwist), 0f, 0f);
+
         // Create materials array if not created already
         if (materials == null) {
             InitializeMaterials();
@@ -72,6 +76,8 @@ public class Fractal : MonoBehaviour {
         spawnProbabaility = parent.spawnProbabaility;
 
         maxRotationSpeed = parent.maxRotationSpeed;
+
+        maxTwist = parent.maxTwist;
 
         // To make Fractal parent the parent of what is to be created
         transform.parent = parent.transform;
