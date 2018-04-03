@@ -35,6 +35,11 @@ public class Fractal : MonoBehaviour {
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
         gameObject.AddComponent<MeshRenderer>().material = material;
 
+        GetComponent<MeshRenderer>().material.color = Color.Lerp(Color.white,
+                                                                 Color.yellow,
+                                                                 (float)currentDepth / maxDepth);
+                                                                
+
         // If less than maximum  depth, create more children growing up, to the right, and left
         if (currentDepth < maxDepth) {
             StartCoroutine(CreateChildren());
