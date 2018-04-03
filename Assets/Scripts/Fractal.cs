@@ -31,7 +31,7 @@ public class Fractal : MonoBehaviour {
     };
 
     // Array to hold materials varying with the depth
-    private Material[] materials;
+    private Material[, ] materials;
      
 	// Use this for initialization
 	private void Start () {
@@ -41,7 +41,7 @@ public class Fractal : MonoBehaviour {
             InitializeMaterials();
         }
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
-        gameObject.AddComponent<MeshRenderer>().material = materials[currentDepth];
+        gameObject.AddComponent<MeshRenderer>().material = materials[currentDepth, Random.Range(0, 2)];
 
         // If less than maximum  depth, create more children growing up, to the right, and left
         if (currentDepth < maxDepth) {
@@ -80,19 +80,26 @@ public class Fractal : MonoBehaviour {
 
     // This handles the creation of materials varying with depth
     private void InitializeMaterials() {
-        materials = new Material[maxDepth + 1];
+        materials = new Material[maxDepth + 1, 2];
 
         for (int i = 0; i <= maxDepth; i++) {
             float weight = i / (maxDepth - 1f);
             weight *= weight;
 
-            materials[i] = new Material(material);
+            materials[i, 0] = new Material(material);
+            materials[i, 1] = new Material(material);
 
-            materials[i].color =
+            // First color progression
+            materials[i, 0].color =
                 Color.Lerp(Color.white, Color.yellow, weight);
+
+            // Second color progression
+            materials[i, 1].color =
+                Color.Lerp(Color.white, Color.cyan, weight);
         }
 
-        materials[maxDepth].color = Color.magenta;
+        materials[maxDepth, 0].color = Color.magenta;
+        materials[maxDepth, 1].color = Color.red;
     }
 
 }
