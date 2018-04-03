@@ -9,3 +9,6 @@ http://catlikecoding.com/unity/tutorials/constructing-a-fractal/.
 - Relation between parent's transform and child's transform component.
 - How to create a parent-child relationship (Using SetParent method and parent property).
 - How to use coroutines.
+- A very basic idea about dynamic batching.
+- How to use Color.Lerp().
+- The difference between transform.Rotate() vs transform.localRotation.
