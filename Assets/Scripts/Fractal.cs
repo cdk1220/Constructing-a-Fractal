@@ -29,16 +29,19 @@ public class Fractal : MonoBehaviour {
         Quaternion.Euler(90f, 0f, 0f),
         Quaternion.Euler(-90f, 0f, 0f)
     };
+
+    // Array to hold materials varying with the depth
+    private Material[] materials;
      
 	// Use this for initialization
 	private void Start () {
-        gameObject.AddComponent<MeshFilter>().mesh = mesh;
-        gameObject.AddComponent<MeshRenderer>().material = material;
 
-        GetComponent<MeshRenderer>().material.color = Color.Lerp(Color.white,
-                                                                 Color.yellow,
-                                                                 (float)currentDepth / maxDepth);
-                                                                
+        // Create materials array if not created already
+        if (materials == null) {
+            InitializeMaterials();
+        }
+        gameObject.AddComponent<MeshFilter>().mesh = mesh;
+        gameObject.AddComponent<MeshRenderer>().material = materials[currentDepth];
 
         // If less than maximum  depth, create more children growing up, to the right, and left
         if (currentDepth < maxDepth) {
@@ -49,7 +52,7 @@ public class Fractal : MonoBehaviour {
     // Used to create child objects that inherit parent properties
     private void Initialize(Fractal parent, int childIndex) {
         mesh = parent.mesh;
-        material = parent.material;
+        materials = parent.materials;
         maxDepth = parent.maxDepth;
         currentDepth = parent.currentDepth + 1;
         childScale = parent.childScale;
@@ -72,6 +75,17 @@ public class Fractal : MonoBehaviour {
         for (int i = 0; i < childDirections.Length; i++) {
             yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
             new GameObject("Fractal Child").AddComponent<Fractal>().Initialize(this, i);
+        }
+    }
+
+    // This handles the creation of materials varying with depth
+    private void InitializeMaterials() {
+        materials = new Material[maxDepth + 1];
+
+        for (int i = 0; i <= maxDepth; i++) {
+            materials[i] = new Material(material);
+            materials[i].color =
+                Color.Lerp(Color.white, Color.yellow, (float)i / maxDepth);
         }
     }
 
