@@ -12,6 +12,8 @@ public class Fractal : MonoBehaviour {
 
     public float childScale;            // How much to scale the child by
 
+    public Mesh[] meshes;               // Help randomize meshes
+
     // Directions the children would grow in
     private static Vector3[] childDirections = {
         Vector3.up,
@@ -40,7 +42,7 @@ public class Fractal : MonoBehaviour {
         if (materials == null) {
             InitializeMaterials();
         }
-        gameObject.AddComponent<MeshFilter>().mesh = mesh;
+        gameObject.AddComponent<MeshFilter>().mesh = meshes[Random.Range(0, meshes.Length)];
         gameObject.AddComponent<MeshRenderer>().material = materials[currentDepth, Random.Range(0, 2)];
 
         // If less than maximum  depth, create more children growing up, to the right, and left
@@ -51,7 +53,7 @@ public class Fractal : MonoBehaviour {
 
     // Used to create child objects that inherit parent properties
     private void Initialize(Fractal parent, int childIndex) {
-        mesh = parent.mesh;
+        meshes = parent.meshes;
         materials = parent.materials;
         maxDepth = parent.maxDepth;
         currentDepth = parent.currentDepth + 1;
