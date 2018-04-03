@@ -16,16 +16,20 @@ public class Fractal : MonoBehaviour {
     private static Vector3[] childDirections = {
         Vector3.up,
         Vector3.right,
-        Vector3.left
+        Vector3.left,
+        Vector3.forward,
+        Vector3.back
     };
 
     // Orientations for the children
     private static Quaternion[] childOrientations = {
         Quaternion.identity,
         Quaternion.Euler(0f, 0f, -90f),
-        Quaternion.Euler(0f, 0f, 90f)
+        Quaternion.Euler(0f, 0f, 90f),
+        Quaternion.Euler(90f, 0f, 0f),
+        Quaternion.Euler(-90f, 0f, 0f)
     };
-
+     
 	// Use this for initialization
 	private void Start () {
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
@@ -66,8 +70,4 @@ public class Fractal : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
